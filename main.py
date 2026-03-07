@@ -37,6 +37,7 @@ def create_map(group):
                 edges.append((p["paperId"], ref_id))
 
     print(f"Found {len(edges)} edges between papers in dataset")
+    return group_map, edges
 
 
 def get_references(p_id, api_key=None):
@@ -88,6 +89,7 @@ def search_articles(q, s_year, m_entries, api_key=None):
         else:
             print(f"Error {response.status_code}: {response.json()}")
             break
+
 
 def save_results(file_name, data):
     with open(f"{file_name}.json", "w") as f:
