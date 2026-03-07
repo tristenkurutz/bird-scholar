@@ -3,7 +3,7 @@ import time
 import requests
 
 
-def is_bird_paper(paper):
+def is_bird_paper(p):
     bird_keywords = [
         "avian", "songbird", "passerine", "raptor", "waterfowl",
         "finch", "sparrow", "warbler", "thrush", "starling",
@@ -14,7 +14,7 @@ def is_bird_paper(paper):
         "bird", "birds", "ornitholog", "aves", "poultry", "chicken",
         "zebra finch", "budgerigar", "canary"
     ]
-    text = (paper.get("title", "") + " " + (paper.get("abstract") or "")).lower()
+    text = (p.get("title", "") + " " + (p.get("abstract") or "")).lower()
     has_bird = any(kw in text for kw in bird_keywords)
 
     return has_bird
