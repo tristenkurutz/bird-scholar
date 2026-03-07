@@ -41,8 +41,6 @@ def search_articles(query, start_year, max_entries):
         else:
             print(f"Error {response.status_code}: {response.json()}")
             break
-    print("Status code:", response.status_code)
-    print("Raw response:", response.json())
 
     data = response.json()
     papers = data.get("data", [])
