@@ -134,3 +134,5 @@ if __name__ == '__main__':
 
     if len(group_a) > 0:
         save_results("group_a")
+
+    group_map, edges = create_map(group_a)
