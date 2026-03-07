@@ -23,21 +23,21 @@ def is_bird_paper(p):
 
 
 def create_map(group):
-    group_map = {}
+    m = {}
     for p in group:
-        group_map[p["paperId"]] = p
+        m[p["paperId"]] = p
 
-    edges = []
+    e = []
 
-    for p in group_map.values():
+    for p in m.values():
         refs = get_references(p["paperId"])
         for ref in refs:
             ref_id = ref.get("paperId")
-            if ref_id and ref_id in group_map:
-                edges.append((p["paperId"], ref_id))
+            if ref_id and ref_id in m:
+                e.append((p["paperId"], ref_id))
 
-    print(f"Found {len(edges)} edges between papers in dataset")
-    return group_map, edges
+    print(f"Found {len(e)} edges between papers in dataset")
+    return m, e
 
 
 def get_references(p_id, api_key=None):
