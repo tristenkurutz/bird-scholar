@@ -37,11 +37,16 @@ def create_map(group):
     print(f"Found {len(edges)} edges between papers in dataset")
 
 
-def get_references(p_id):
+def get_references(p_id, api_key=None):
+    if api_key:
+        headers = {"x-api-key": api_key}
+    else:
+        headers = {}
+
     for attempt in range(5):
         response = requests.get(
             f"https://api.semanticscholar.org/graph/v1/paper/{p_id}/references",
-            params={"fields": "paperId,title"},
+            params={"fields": "paperId,title"}, headers=headers
         )
         if response.status_code == 200:
             data = response.json()
@@ -55,16 +60,21 @@ def get_references(p_id):
     return []
 
 
-def search_articles(query, s_year, m_entries):
+def search_articles(q, s_year, m_entries, api_key=None):
+    if api_key:
+        headers = {"x-api-key": api_key}
+    else:
+        headers = {}
+
     params = {
-        "query": query,
+        "query": q,
         "fields": "title,referenceCount,citationCount,year,publicationTypes,fieldsOfStudy,authors,abstract",
         "year": f"{s_year}-",
         "fieldsOfStudy": "Biology",
         "limit": m_entries
     }
     for attempt in range(5):
-        response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search", params=params)
+        response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search", params=params, headers=headers)
 
         if response.status_code == 200:
             data = response.json()
@@ -87,14 +97,28 @@ if __name__ == '__main__':
     start_year = 2020
     max_entries = 200
 
-    group_a = search_articles("same-sex behavior songbird", start_year, max_entries)
-    group_a = search_articles("same-sex behavior avian", start_year, max_entries)
-    group_a += search_articles("homosexual behavior avian", start_year, max_entries)
-    group_a += search_articles("homosexual behavior songbird", start_year, max_entries)
+    group_a = []
+    queries = [
+        "same-sex behavior songbird",
+        "same-sex behavior avian",
+        "homosexual behavior avian",
+        "homosexual behavior songbird"
+    ]
+
+    for query in queries:
+        results = search_articles(query, start_year, max_entries)
+        print(f"'{query}' : {len(results)} results")
+        group_a += results
+        time.sleep(3)
 
     print(f"Found {len(group_a)} papers")
 
     group_a = [p for p in group_a if is_bird_paper(p)]
+
+    # de-duplicate papers
+    seen = set()
+    group_a = [p for p in group_a if not (p["paperId"] in seen or seen.add(p["paperId"]))]
+
     print(f"{len(group_a)} papers after filtering")
 
     for paper in group_a:
