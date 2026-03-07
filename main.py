@@ -20,13 +20,48 @@ def is_bird_paper(p):
     return has_bird
 
 
-def search_articles(query, start_year, max_entries):
+def create_map(group):
+    group_map = {}
+    for p in group:
+        group_map[p["paperId"]] = p
+
+    edges = []
+
+    for paper in group_map.values():
+        refs = get_references(paper["paperId"])
+        for ref in refs:
+            ref_id = ref.get("paperId")
+            if ref_id and ref_id in group_map:
+                edges.append((paper["paperId"], ref_id))
+
+    print(f"Found {len(edges)} edges between papers in dataset")
+
+
+def get_references(p_id):
+    for attempt in range(5):
+        response = requests.get(
+            f"https://api.semanticscholar.org/graph/v1/paper/{p_id}/references",
+            params={"fields": "paperId,title"},
+        )
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("data", [])
+        elif response.status_code == 429:
+            wait = 2 ** attempt
+            time.sleep(wait)
+        else:
+            print(f"Error {response.status_code} for paper {p_id}")
+            return []
+    return []
+
+
+def search_articles(query, s_year, m_entries):
     params = {
         "query": query,
         "fields": "title,referenceCount,citationCount,year,publicationTypes,fieldsOfStudy,authors,abstract",
-        "year": f"{start_year}-",
+        "year": f"{s_year}-",
         "fieldsOfStudy": "Biology",
-        "limit": max_entries
+        "limit": m_entries
     }
     for attempt in range(5):
         response = requests.get("https://api.semanticscholar.org/graph/v1/paper/search", params=params)
