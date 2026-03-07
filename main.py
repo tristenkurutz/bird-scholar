@@ -89,14 +89,9 @@ def search_articles(q, s_year, m_entries, api_key=None):
             print(f"Error {response.status_code}: {response.json()}")
             break
 
-    data = response.json()
-    papers = data.get("data", [])
-    return papers
-
-
-def save_results(file_name):
+def save_results(file_name, data):
     with open(f"{file_name}.json", "w") as f:
-        json.dump(group_a, f)
+        json.dump(data, f)
     if os.path.getsize(f"{file_name}.json") > 0:
         print(f"Successfully saved results to {file_name}.json")
     else:
