@@ -1,3 +1,5 @@
+import json
+import os.path
 import time
 
 import requests
@@ -27,12 +29,12 @@ def create_map(group):
 
     edges = []
 
-    for paper in group_map.values():
-        refs = get_references(paper["paperId"])
+    for p in group_map.values():
+        refs = get_references(p["paperId"])
         for ref in refs:
             ref_id = ref.get("paperId")
             if ref_id and ref_id in group_map:
-                edges.append((paper["paperId"], ref_id))
+                edges.append((p["paperId"], ref_id))
 
     print(f"Found {len(edges)} edges between papers in dataset")
 
@@ -92,6 +94,15 @@ def search_articles(q, s_year, m_entries, api_key=None):
     return papers
 
 
+def save_results(file_name):
+    with open(f"{file_name}.json", "w") as f:
+        json.dump(group_a, f)
+    if os.path.getsize(f"{file_name}.json") > 0:
+        print(f"Successfully saved results to {file_name}.json")
+    else:
+        print("File saving failed. Try again.")
+
+
 if __name__ == '__main__':
     # define search variables
     start_year = 2020
@@ -123,3 +134,6 @@ if __name__ == '__main__':
 
     for paper in group_a:
         print(paper["title"], "-", paper.get("citationCount"))
+
+    if len(group_a) > 0:
+        save_results("group_a")
