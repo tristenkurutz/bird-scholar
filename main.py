@@ -115,24 +115,31 @@ if __name__ == '__main__':
 
     for query in queries:
         results = search_articles(query, start_year, max_entries)
-        print(f"'{query}' : {len(results)} results")
-        group_a += results
-        time.sleep(3)
+        if results:
+            print(f"'{query}' : {len(results)} results")
+            group_a += results
+            time.sleep(3)
+        else:
+            print(f"{query} returned null - you may be currently rate limited")
+            break
 
     print(f"Found {len(group_a)} papers")
 
-    group_a = [p for p in group_a if is_bird_paper(p)]
-
-    # de-duplicate papers
-    seen = set()
-    group_a = [p for p in group_a if not (p["paperId"] in seen or seen.add(p["paperId"]))]
-
-    print(f"{len(group_a)} papers after filtering")
-
-    for paper in group_a:
-        print(paper["title"], "-", paper.get("citationCount"))
-
     if len(group_a) > 0:
-        save_results("group_a")
+        group_a = [p for p in group_a if is_bird_paper(p)]
 
-    group_map, edges = create_map(group_a)
+        # de-duplicate papers
+        seen = set()
+        group_a = [p for p in group_a if not (p["paperId"] in seen or seen.add(p["paperId"]))]
+
+        print(f"{len(group_a)} papers after filtering")
+
+        for paper in group_a:
+            print(paper["title"], "-", paper.get("citationCount"))
+
+        if len(group_a) > 0:
+            save_results("group_a")
+
+        group_map, edges = create_map(group_a)
+    else:
+        print("No papers found")
