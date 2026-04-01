@@ -127,7 +127,7 @@ def build_graph(paper_map_obj, edges_obj):
             fontsize=7, ha="left", va="bottom", fontfamily="monospace")
 
     ax.axis("off")
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.97])
     plt.savefig("network.png", dpi=200, bbox_inches="tight", facecolor="#0d1117")
     plt.show()
     print("Saved to network.png")
