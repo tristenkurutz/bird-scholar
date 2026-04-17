@@ -13,7 +13,6 @@ def is_relevant_paper(p):
         "female-male", "male-female",
         "female male", "male female",
         "mixed-sex", "mixed sex",
-        "sexual behavior", "sexual behaviour",
         "mating", "pair bond", "copulate",
         "courtship", "mounting", "pairing",
         "sexual partner", "sex partner",
@@ -22,8 +21,6 @@ def is_relevant_paper(p):
         "intersex pairing", "mixed pairing",
         "breeding pair", "breeding behavior", "breeding behaviour",
         "mate choice", "mate selection",
-        "monogamous", "monogamy",
-        "polygamous", "polygamy",
         "nesting pair", "clutch", "fertilization"
     ]
 
