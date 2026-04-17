@@ -13,7 +13,7 @@ def load_data(map_file_name, edges_file_name):
     return map_f, e
 
 
-def build_graph(paper_map_obj, edges_obj):
+def build_graph(paper_map_obj, edges_obj, title, file_name):
     G = nx.DiGraph()
 
     for paper_id, paper in paper_map_obj.items():
@@ -45,13 +45,15 @@ def build_graph(paper_map_obj, edges_obj):
     pos = forceatlas2.forceatlas2_networkx_layout(G_undirected, iterations=5000)
 
     # balanced sizing
-    deg_dict = dict(G.in_degree())
+    in_deg_dict = dict(G.in_degree())
+    overall_deg_dict = dict(G.degree())
 
-    deg = np.array([deg_dict[n] for n in G.nodes()])
-    node_sizes = (np.sqrt(deg) * 500) + 80
+    in_deg = np.array([in_deg_dict[n] for n in G.nodes()])
+    overall_deg = np.array([overall_deg_dict[n] for n in G.nodes()])
+    node_sizes = (overall_deg ** 1.5 * 50) + 80
 
     # colors
-    color_vals = deg
+    color_vals = in_deg
 
     fig, ax = plt.subplots(figsize=(18, 14))
     fig.patch.set_facecolor("#0d1117")
@@ -81,7 +83,7 @@ def build_graph(paper_map_obj, edges_obj):
     # colorbar legend
     sm = plt.cm.ScalarMappable(
         cmap=cmap,
-        norm=plt.Normalize(vmin=deg.min(), vmax=deg.max())
+        norm=plt.Normalize(vmin=in_deg.min(), vmax=in_deg.max())
     )
 
     sm.set_array([])
@@ -92,7 +94,14 @@ def build_graph(paper_map_obj, edges_obj):
     cbar.outline.set_edgecolor("#444444")
 
     # label top nodes by degree
-    top_nodes = sorted(deg_dict.items(), key=lambda x: x[1], reverse=True)[:25]
+    top_nodes = sorted(in_deg_dict.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    out_deg_dict = dict(G.out_degree())
+    top_out = sorted(out_deg_dict.items(), key=lambda x: x[1], reverse=True)[:5]
+
+    print(f"Sorted by out-degree for {title}:")
+    for node_id, deg in top_out:
+        print(f"{G.nodes[node_id]['title']} - out-degree: {deg}")
 
     labels = {}
     for n, c in top_nodes:
@@ -113,14 +122,16 @@ def build_graph(paper_map_obj, edges_obj):
                             font_color="white",
                             font_family="monospace")
 
-    ax.set_title("Avian Same-Sex Behavior\nCitation Network",
+    ax.set_title(f"{title}\nCitation Network",
                  color="white", fontsize=18, fontweight="bold",
                  pad=15, loc="left", x=0.02)
 
     ax.text(0.98, 0.02,
             f"{G.number_of_nodes()} papers · {G.number_of_edges()} citations\n"
-            f"node size & color = degree\n\n"
+            "node color = in-degree\n"
+            "node size = total degree\n\n"
             "degree: the number of connections a node has\n\n"
+            "in-degree: the number of citations a node has\n\n"
             "In this citation network, it represents how many times a\n"
             "paper is cited (incoming links)",
             transform=ax.transAxes, color="#888888",
@@ -128,11 +139,14 @@ def build_graph(paper_map_obj, edges_obj):
 
     ax.axis("off")
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    plt.savefig("network.png", dpi=200, bbox_inches="tight", facecolor="#0d1117")
+    plt.savefig(f"{file_name}.png", dpi=200, bbox_inches="tight", facecolor="#0d1117")
     plt.show()
-    print("Saved to network.png")
+    print(f"Saved to {file_name}.png")
 
 
 if __name__ == '__main__':
     paper_map, edges = load_data("group_a_map", "group_a_edges")
-    build_graph(paper_map, edges)
+    build_graph(paper_map, edges, "Avian Same-Sex Behavior", "group_a_network")
+
+    paper_map, edges = load_data("group_b_map", "group_b_edges")
+    build_graph(paper_map, edges, "Avian Heterosexual Behavior", "group_b_network")

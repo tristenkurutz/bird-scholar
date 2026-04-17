@@ -7,16 +7,24 @@ from dotenv import load_dotenv
 
 
 def is_relevant_paper(p):
-    same_sex_keywords = [
-        "same-sex", "same sex", "same‐sex",
-        "homosexual", "homosexuality",
-        "female-female", "male-male",
-        "female female", "male male",
+    heterosexual_keywords = [
+        "heterosexual", "heterosexuality",
+        "opposite-sex", "opposite sex", "opposite‐sex",
+        "female-male", "male-female",
+        "female male", "male female",
+        "mixed-sex", "mixed sex",
         "sexual behavior", "sexual behaviour",
         "mating", "pair bond", "copulate",
         "courtship", "mounting", "pairing",
         "sexual partner", "sex partner",
-        "reproductive behavior", "reproductive behaviour"
+        "reproductive behavior", "reproductive behaviour",
+        "cross-sex", "cross sex",
+        "intersex pairing", "mixed pairing",
+        "breeding pair", "breeding behavior", "breeding behaviour",
+        "mate choice", "mate selection",
+        "monogamous", "monogamy",
+        "polygamous", "polygamy",
+        "nesting pair", "clutch", "fertilization"
     ]
 
     bird_keywords = [
@@ -39,10 +47,10 @@ def is_relevant_paper(p):
     has_bird = any(kw in full_text for kw in bird_keywords)
 
     if not abstract:
-        return has_bird
+        return has_bird and any(kw in title for kw in heterosexual_keywords)
 
-    has_same_sex = any(kw in full_text for kw in same_sex_keywords)
-    return has_bird and has_same_sex
+    has_hetero_sex = any(kw in full_text for kw in heterosexual_keywords)
+    return has_bird and has_hetero_sex
 
 
 def create_map(group, api_key=None):
@@ -141,54 +149,47 @@ if __name__ == '__main__':
     # get api key, if one is defined
     api_key = os.getenv("API_KEY")
 
-    group_a = []
+    group_b = []
     queries = [
-        "same-sex behavior songbird",
-        "same-sex behavior avian",
-        "homosexual behavior avian",
-        "homosexual behavior songbird",
-        "same-sex mounting in birds",
-        "same-sex behavior bird",
-        "bird same-sex parenting",
-        "homosexuality in birds",
-        "homosexual bird mating",
-        "same‐sex partnerships in birds",
-        "Same-sex pair-bonds birds"
+        "heterosexual mating behavior birds",
+        "avian pair bond breeding",
+        "bird reproductive behavior",
+        "avian monogamy breeding pair",
     ]
 
     for query in queries:
         results = search_articles(query, start_year, max_entries, api_key)
         if results:
             print(f"'{query}' : {len(results)} results")
-            group_a += results
+            group_b += results
             time.sleep(3)
         else:
             print(f"{query} returned null - you may be currently rate limited")
             break
 
-    print(f"Found {len(group_a)} papers")
+    print(f"Found {len(group_b)} papers")
 
-    if len(group_a) > 0:
-        save_results("original_result", group_a)
+    if len(group_b) > 0:
+        save_results("original_result", group_b)
         print("Saved original response")
 
-        group_a = [p for p in group_a if is_relevant_paper(p)]
+        group_b = [p for p in group_b if is_relevant_paper(p)]
 
         # de-duplicate papers
         seen = set()
-        group_a = [p for p in group_a if not (p["paperId"] in seen or seen.add(p["paperId"]))]
+        group_b = [p for p in group_b if not (p["paperId"] in seen or seen.add(p["paperId"]))]
 
-        print(f"{len(group_a)} papers after filtering")
+        print(f"{len(group_b)} papers after filtering")
 
-        for paper in group_a:
+        for paper in group_b:
             print(paper["title"], "-", paper.get("citationCount"))
 
-        if len(group_a) > 0:
-            save_results("group_a", group_a)
+        if len(group_b) > 0:
+            save_results("group_b", group_b)
 
-        group_map, edges = create_map(group_a, api_key)
+        group_map, edges = create_map(group_b, api_key)
 
-        save_results("group_a_map", group_map)
-        save_results("group_a_edges", edges)
+        save_results("group_b_map", group_map)
+        save_results("group_b_edges", edges)
     else:
         print("No papers found")
