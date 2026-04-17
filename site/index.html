@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>bird scholar research project</title>
+		<script src="accordion.js"></script>
+		<link rel="stylesheet" href="main.css" />
+	</head>
+	<body>
+		<h1>"bird scholar" research</h1>
+		<h2>research question</h2>
+		<span
+			>Do scientific papers describing same-sex behavior in birds cite fewer
+			prior sources than papers describing heterosexual or reproductive
+			behavior?</span
+		>
+		<h2>hypothesis</h2>
+		<span
+			>In comparison of same-sex behavior avian papers and hetereosexual
+			behavior papers, there will be less edges for same-sex behavior papers due
+			to the smaller amount of research. In other words, there is less of a
+			foundation for same-sex avian research, so the papers will cite less
+			sources.</span
+		>
+
+		<h2>methodology</h2>
+		<p>
+			Papers were collected using the
+			<a href="https://www.semanticscholar.org/product/api"
+				>Semantic Scholar API</a
+			>
+			with the queries below. They were then filtered with specific keywords to
+			make sure it was relevant to the research.
+
+			<br /><br /><a href="https://github.com/tristenkurutz/bird-scholar"
+				>See the code here.</a
+			>
+		</p>
+		<div class="accordion">
+			<button class="accordion-btn">
+				Queries
+				<span class="arrow">⬇</span>
+			</button>
+			<div class="accordion-content">
+				<p>Queries used to retrieve results:</p>
+				<h4>Same-sex</h4>
+				<pre><code>same-sex behavior songbird, same-sex behavior avian,
+homosexual behavior avian, homosexual behavior songbird,
+same-sex mounting in birds, same-sex behavior bird,
+bird same-sex parenting, homosexuality in birds,
+homosexual bird mating, same‐sex partnerships in birds,
+same-sex pair-bonds birds</code></pre>
+				<h4>Heterosexual</h4>
+				<pre><code>heterosexual mating behavior birds, avian pair bond breeding,
+bird reproductive behavior, avian monogamy breeding pair</code></pre>
+			</div>
+		</div>
+		<div class="accordion">
+			<button class="accordion-btn">
+				Filtering Keywords
+				<span class="arrow">⬇</span>
+			</button>
+			<div class="accordion-content">
+				<p>Keywords used to filter results:</p>
+				<h4>Same-sex</h4>
+				<pre><code>same-sex, same sex, homosexual, homosexuality,
+female-female, male-male, sexual behavior,
+sexual behaviour, mating, pair bond, copulate,
+courtship, mounting, pairing, sexual partner,
+sex partner, reproductive behavior, reproductive behaviour</code></pre>
+				<h4>Heterosexual</h4>
+				<pre><code>heterosexual, heterosexuality, opposite-sex,
+opposite sex, female-male, male-female, mixed-sex,
+mating, pair bond, copulate, courtship, mounting,
+pairing, sexual partner, sex partner, cross-sex,
+breeding pair, breeding behavior, mate choice,
+mate selection, monogamous, monogamy, nesting pair,
+clutch, fertilization</code></pre>
+				<h4>Bird (applied to both)</h4>
+				<pre><code>bird, birds, avian, aves, songbird, passerine, 
+ornithology, finch, sparrow, warbler, thrush, starling,
+crane, parrot, owl, duck, goose, flamingo, kestrel, corvid, 
+jay, wren, swift, macaw, dove, pigeon, raptor, seabird, 
+shorebird, waterfowl, budgerigar, canary, zebra finch, 
+quail, chicken, poultry</code></pre>
+			</div>
+		</div>
+
+		<h2>limitations</h2>
+		<ul>
+			<li>
+				Papers without abstracts are filtered using title alone, which may be
+				less accurate.
+			</li>
+			<li>
+				There are keyword filtering limitations, its difficult to pinpoint what
+				words are in relevant titles.
+			</li>
+		</ul>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+.accordion-btn {
+	background: none;
+	border: none;
+	width: 100%;
+	text-align: left;
+	cursor: pointer;
+	padding: 1em 0;
+	font-size: 1.1em;
+	border-bottom: 1px solid #ccc;
+}
+.accordion-content {
+	display: none;
+	padding: 0.05em 0;
+}
+.accordion-content.open {
+	display: block;
+}
