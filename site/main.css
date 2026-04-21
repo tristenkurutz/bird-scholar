@@ -1,17 +1,87 @@
+/* Page layout */
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05em;
+    line-height: 1.8;
+    color: #1a1a1a;
+    background-color: #f9f7f4;
+    margin: 0;
+    padding: 2em 1em;
+}
+
+/* Constrain content width, centered */
+body > * {
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 1.8em;
+    font-weight: bold;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.2em;
+}
+
+h2 {
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    color: #444;
+}
+
+h4 {
+    margin-bottom: 0.3em;
+    color: #333;
+}
+
+p, span {
+    margin-bottom: 1em;
+}
+
+a {
+    color: #1a1a1a;
+}
+
+pre {
+    background-color: #efefef;
+    padding: 1em;
+    border-radius: 4px;
+    font-size: 0.85em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+/* Accordion */
+.accordion {
+    margin-top: 1em;
+}
+
 .accordion-btn {
-	background: none;
-	border: none;
-	width: 100%;
-	text-align: left;
-	cursor: pointer;
-	padding: 1em 0;
-	font-size: 1.1em;
-	border-bottom: 1px solid #ccc;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    padding: 1em 0;
+    font-size: 1.1em;
+    font-family: Georgia, "Times New Roman", serif;
+    border-bottom: 1px solid #ccc;
+    color: #1a1a1a;
 }
+
+.accordion-btn:hover {
+    color: #555;
+}
+
 .accordion-content {
-	display: none;
-	padding: 0.05em 0;
+    display: none;
+    padding: 0.05em 0;
 }
+
 .accordion-content.open {
-	display: block;
+    display: block;
 }
