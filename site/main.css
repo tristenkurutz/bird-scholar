@@ -10,10 +10,21 @@ body {
 }
 
 /* Constrain content width, centered */
-body > * {
+img, body > * {
     max-width: 740px;
     margin-left: auto;
     margin-right: auto;
+}
+
+img {
+	display: block;
+}
+
+.attribution {
+    font-size: 0.75em;
+    color: #888;
+    text-align: center;
+    font-style: italic;
 }
 
 h1 {
