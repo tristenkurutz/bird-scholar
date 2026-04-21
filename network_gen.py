@@ -16,6 +16,10 @@ def load_data(map_file_name, edges_file_name):
 def build_graph(paper_map_obj, edges_obj, title, file_name):
     G = nx.DiGraph()
 
+    years = [paper.get("year") for paper in paper_map_obj.values() if paper.get("year")]
+    avg_year = round(sum(years) / len(years)) if years else "N/A"
+    print(f"Average publish year: {avg_year}")
+
     for paper_id, paper in paper_map_obj.items():
         G.add_node(paper_id,
                    title=paper.get("title", "Unknown"),
@@ -103,6 +107,11 @@ def build_graph(paper_map_obj, edges_obj, title, file_name):
     for node_id, deg in top_out:
         print(f"{G.nodes[node_id]['title']} - out-degree: {deg}")
 
+    print(f"\nSorted by in-degree for {title}:")
+    for node_id, deg in top_nodes:
+        print(f"{G.nodes[node_id]['title']} - in-degree: {deg}")
+
+
     labels = {}
     for n, c in top_nodes:
         t = G.nodes[n]["title"]
@@ -136,6 +145,9 @@ def build_graph(paper_map_obj, edges_obj, title, file_name):
             "paper is cited (incoming links)",
             transform=ax.transAxes, color="#888888",
             fontsize=7, ha="left", va="bottom", fontfamily="monospace")
+
+    density = nx.density(G)
+    print(f"Network density: {density:.4f}")
 
     ax.axis("off")
     plt.tight_layout(rect=[0, 0, 1, 0.97])
