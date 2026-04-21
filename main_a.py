@@ -65,8 +65,8 @@ def create_map(group, api_key=None):
                 e.append((p["paperId"], ref_id))
         time.sleep(1)
 
-    save_results("redacted_papers", redacted)
-    print("Saved redacted results to redacted_papers.json")
+    save_results("redacted_papers_a", redacted)
+    print("Saved redacted results to redacted_papers_a.json")
     print(f"Found {len(e)} edges between papers in dataset")
     return m, e
 
