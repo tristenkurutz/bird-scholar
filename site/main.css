@@ -55,6 +55,27 @@ pre {
     white-space: pre-wrap;
 }
 
+table {
+    width: 60%;
+    border-collapse: collapse;
+    margin: 1em auto;
+}
+
+th, td {
+    padding: 0.6em 1em;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    font-weight: bold;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
 /* Accordion */
 .accordion {
     margin-top: 1em;
