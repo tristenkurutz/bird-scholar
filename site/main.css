@@ -10,8 +10,8 @@ body {
 }
 
 /* Constrain content width, centered */
-img, body > * {
-    max-width: 740px;
+body > * {
+    max-width: 40%;
     margin-left: auto;
     margin-right: auto;
 }
