@@ -1,186 +1,280 @@
 <!doctype html>
 <html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>bird scholar research project</title>
+		<script src="accordion.js"></script>
+		<link rel="stylesheet" href="main.css" />
+	</head>
 
-<head>
-	<meta charset="UTF-8" />
-	<title>bird scholar research project</title>
-	<script src="accordion.js"></script>
-	<link rel="stylesheet" href="main.css" />
-</head>
+	<body>
+		<img
+			src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Black-headed_Gulls%2C_London.jpg/960px-Black-headed_Gulls%2C_London.jpg?_=20060404004426"
+		/>
+		<p class="attribution">
+			(C)
+			<a href="https://commons.wikimedia.org/wiki/User:Gerry_Lynch~commonswiki"
+				>Gerry Lynch</a
+			>, 2006. Little Gulls winter in a London park.
+		</p>
+		<h1>"bird scholar" research</h1>
+		<h2>research question</h2>
+		<p>
+			Do scientific papers describing same-sex behavior in birds cite fewer
+			prior sources than papers describing heterosexual or reproductive
+			behavior?
+		</p>
+		<h2>hypothesis</h2>
+		<p>
+			In comparison of same-sex behavior avian papers and hetereosexual behavior
+			papers, there will be less edges for same-sex behavior papers due to the
+			smaller amount of research. In other words, there is less of a foundation
+			for same-sex avian research, so the papers will cite less in-network
+			sources.
+		</p>
 
-<body>
-	<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Black-headed_Gulls%2C_London.jpg/960px-Black-headed_Gulls%2C_London.jpg?_=20060404004426"/>
-	<p class="attribution">(C) <a href="https://commons.wikimedia.org/wiki/User:Gerry_Lynch~commonswiki">Gerry Lynch</a>, 2006. Little Gulls winter in a London park.</p>
-	<h1>"bird scholar" research</h1>
-	<h2>research question</h2>
-	<p>Do scientific papers describing same-sex behavior in birds cite fewer
-		prior sources than papers describing heterosexual or reproductive
-		behavior?</p>
-	<h2>hypothesis</h2>
-	<p>In comparison of same-sex behavior avian papers and hetereosexual
-		behavior papers, there will be less edges for same-sex behavior papers due
-		to the smaller amount of research. In other words, there is less of a
-		foundation for same-sex avian research, so the papers will cite less
-		in-network sources.</p>
+		<h2>methodology</h2>
+		<p>
+			Papers were collected using the
+			<a href="https://www.semanticscholar.org/product/api"
+				>Semantic Scholar API</a
+			>
+			, limited to publications in the Biology category from 2015 onwards, with
+			the queries below. Two separate datasets were built: one for avian
+			same-sex behavior and one for avian heterosexual behavior. Each dataset
+			was built independently, using distinct sets of search queries for each
+			group. For each search query, a maximum of 100 papers were retrieved from
+			the API. They were then filtered with specific keywords to make sure it
+			was relevant to the research. From there, the papers' citations were
+			collected through the same API and were filtered, to make sure they were
+			also relevant. If the citing paper existed in the dataset, it recorded
+			that connection as an edge between the reference and the citation. It drew
+			edges between papers that were already in the collected dataset. In other
+			words, it built a self-contained network rather than including citations
+			to papers outside of the network/dataset. These networks were then
+			visualized using <a href="https://networkx.org/">NetworkX</a> and
+			<a href="https://github.com/eriklindernoren/ForceAtlas2">ForceAtlas2</a>,
+			where node size reflects total degree (total number of citation links) and
+			node color reflects in-degree (number of times a source was cited within
+			the network).
 
-	<h2>methodology</h2>
-	<p>
-		Papers were collected using the
-		<a href="https://www.semanticscholar.org/product/api">Semantic Scholar API</a>
-		, limited to publications in the Biology category from 2015 onwards, with the queries below. Two separate
-		datasets were
-		built: one for avian same-sex behavior and one for avian heterosexual behavior. Each dataset was built
-		independently, using distinct sets of search queries for each group. They were then
-		filtered with specific keywords to
-		make sure it was relevant to the research.
-
-		From there, the papers' citations were collected through the same API and were filtered, to make sure they were
-		also relevant. If the citing paper existed in the dataset, it recorded that connection as an edge between the
-		reference and the citation. It drew edges between papers that were already in the collected dataset.
-		In other words, it built a self-contained network rather than including citations to papers outside of the
-		network/dataset.
-
-		These networks were then
-		visualized using <a href="https://networkx.org/">NetworkX</a> and <a
-			href="https://github.com/eriklindernoren/ForceAtlas2">ForceAtlas2</a>, where node size reflects total degree
-		(total number of citation links)
-		and node color reflects in-degree (number of times a source was cited within the network).
-
-		<br /><br /><a href="https://github.com/tristenkurutz/bird-scholar">See the code here.</a>
-	</p>
-	<div class="accordion">
-		<button class="accordion-btn">
-			Queries
-			<span class="arrow">⬇</span>
-		</button>
-		<div class="accordion-content">
-			<p>Queries used to retrieve results:</p>
-			<h4>Same-sex</h4>
-			<pre><code>same-sex behavior songbird, same-sex behavior avian,
+			<br /><br /><a href="https://github.com/tristenkurutz/bird-scholar"
+				>See the code here.</a
+			>
+		</p>
+		<div class="accordion">
+			<button class="accordion-btn">
+				Queries
+				<span class="arrow">⬇</span>
+			</button>
+			<div class="accordion-content">
+				<p>Queries used to retrieve results:</p>
+				<h4>Same-sex</h4>
+				<pre><code>same-sex behavior songbird, same-sex behavior avian,
 homosexual behavior avian, homosexual behavior songbird,
 same-sex mounting in birds, same-sex behavior bird,
 bird same-sex parenting, homosexuality in birds,
 homosexual bird mating, same‐sex partnerships in birds,
 same-sex pair-bonds birds</code></pre>
-			<h4>Heterosexual</h4>
-			<pre><code>heterosexual mating behavior birds, avian pair bond breeding,
+				<h4>Heterosexual</h4>
+				<pre><code>heterosexual mating behavior birds, avian pair bond breeding,
 bird reproductive behavior, avian monogamy breeding pair</code></pre>
+			</div>
 		</div>
-	</div>
-	<div class="accordion">
-		<button class="accordion-btn">
-			Filtering Keywords
-			<span class="arrow">⬇</span>
-		</button>
-		<div class="accordion-content">
-			<p>Keywords used to filter results:</p>
-			<h4>Same-sex</h4>
-			<pre><code>same-sex, same sex, homosexual, homosexuality,
+		<div class="accordion">
+			<button class="accordion-btn">
+				Filtering Keywords
+				<span class="arrow">⬇</span>
+			</button>
+			<div class="accordion-content">
+				<p>Keywords used to filter results:</p>
+				<h4>Same-sex</h4>
+				<pre><code>same-sex, same sex, homosexual, homosexuality,
 female-female, male-male, sexual behavior,
 sexual behaviour, mating, pair bond, copulate,
 courtship, mounting, pairing, sexual partner,
 sex partner, reproductive behavior, reproductive behaviour</code></pre>
-			<h4>Heterosexual</h4>
-			<pre><code>heterosexual, heterosexuality, opposite-sex,
+				<h4>Heterosexual</h4>
+				<pre><code>heterosexual, heterosexuality, opposite-sex,
 opposite sex, female-male, male-female, mixed-sex,
 mating, pair bond, copulate, courtship, mounting,
 pairing, sexual partner, sex partner, cross-sex,
 breeding pair, breeding behavior, mate choice,
 mate selection, monogamous, monogamy, nesting pair,
 clutch, fertilization</code></pre>
-			<h4>Bird (applied to both)</h4>
-			<pre><code>bird, birds, avian, aves, songbird, passerine, 
+				<h4>Bird (applied to both)</h4>
+				<pre><code>bird, birds, avian, aves, songbird, passerine, 
 ornithology, finch, sparrow, warbler, thrush, starling,
 crane, parrot, owl, duck, goose, flamingo, kestrel, corvid, 
 jay, wren, swift, macaw, dove, pigeon, raptor, seabird, 
 shorebird, waterfowl, budgerigar, canary, zebra finch, 
 quail, chicken, poultry</code></pre>
+			</div>
 		</div>
-	</div>
 
-	<h2>data</h2>
-	<table>
-		<thead>
-			<tr>
-				<th></th>
-				<th>Same-sex</th>
-				<th>Heterosexual</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Papers</td>
-				<td>51</td>
-				<td>54</td>
-			</tr>
-			<tr>
-				<td>Citations</td>
-				<td>42</td>
-				<td>50</td>
-			</tr>
-			<tr>
-				<td>Avg. publish year</td>
-				<td>2021</td>
-				<td>2022</td>
-			</tr>
-			<tr>
-				<td>Network density</td>
-				<td>0.0165</td>
-				<td>0.0175</td>
-			</tr>
-			<tr>
-				<td>Top-Cited Paper</td>
-				<td><i>Same‐sex partnerships in birds: a review of the current literature and a call for more data</i>
-					(3)</td>
-				<td><i>The causes and implications of sex role diversity in shorebird breeding systems</i> (5)</td>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
+		<h2>data</h2>
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Same-sex</th>
+					<th>Heterosexual</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Papers</td>
+					<td>51</td>
+					<td>54</td>
+				</tr>
+				<tr>
+					<td>Citations</td>
+					<td>42</td>
+					<td>50</td>
+				</tr>
+				<tr>
+					<td>Avg. publish year</td>
+					<td>2021</td>
+					<td>2022</td>
+				</tr>
+				<tr>
+					<td>Network density</td>
+					<td>0.0165</td>
+					<td>0.0175</td>
+				</tr>
+				<tr>
+					<td>Top-Cited Paper</td>
+					<td>
+						<i
+							>Same‐sex partnerships in birds: a review of the current
+							literature and a call for more data</i
+						>
+						(3)
+					</td>
+					<td>
+						<i
+							>The causes and implications of sex role diversity in shorebird
+							breeding systems</i
+						>
+						(5)
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
 
-	<h2>results</h2>
-	<p>words</p>
+		<h2>results</h2>
+		<div class="zoom-label">Same-sex behavior network</div>
+		<div class="zoom-wrapper">
+			<div class="zoom-container">
+				<img src="../group_a_network.png" id="zoomable-1" />
+			</div>
+			<div class="zoom-controls">
+				<button id="zoom-in-1">+</button>
+				<button id="zoom-out-1">−</button>
+				<button id="zoom-reset-1">Reset</button>
+			</div>
+			<p class="zoom-tooltip">Use + and − to zoom, then drag to pan.</p>
+		</div>
 
-	<h2>analysis</h2>
-	<p>words</p>
+		<div class="zoom-label">Heterosexual behavior network</div>
+		<div class="zoom-wrapper">
+			<div class="zoom-container">
+				<img src="../group_b_network.png" id="zoomable-2" />
+			</div>
+			<div class="zoom-controls">
+				<button id="zoom-in-2">+</button>
+				<button id="zoom-out-2">−</button>
+				<button id="zoom-reset-2">Reset</button>
+			</div>
+			<p class="zoom-tooltip">Use + and − to zoom, then drag to pan.</p>
+		</div>
 
-	<h2>limitations</h2>
-	<ul>
-		<li>
-			Papers without abstracts are filtered using title alone, which may be
-			less accurate.
-		</li>
-		<li>
-			There are keyword filtering limitations; it is difficult to pinpoint what
-			words are in relevant titles.
-		</li>
-		<li>
-			Due to the small size of each dataset, the citation networks are sparse. Edges only form when both the
-			citing and cited paper exist within the collected dataset, meaning the majority of real-world citations
-			between these papers are not captured.
-		</li>
-	</ul>
+		<h2>analysis</h2>
+		<p>There are a few notable observations to take from this study:</p>
+		<ul>
+			<li>
+				The most cited paper in the same-sex network was a review explicitly
+				calling for more data, "Same‐sex partnerships in birds: a review of the
+				current literature and a call for more data," implying that the field
+				itself recognizes its limited foundation.
+			</li>
+			<li>
+				The heterosexual network features a dominant hub, "Extra-pair paternity
+				in birds," which cites 16 other papers in the dataset. This hub is a
+				review paper that summarizes existing research in the field for the last
+				couple of years. This does not exist in the same-sex behavior network
+				graph.
+			</li>
+		</ul>
 
+		<h2>limitations</h2>
+		<ul>
+			<li>
+				Papers without abstracts are filtered using title alone, which may be
+				less accurate.
+			</li>
+			<li>
+				There are keyword filtering limitations; it is difficult to pinpoint
+				what words are in relevant titles.
+			</li>
+			<li>
+				Due to the small size of each dataset, the citation networks are sparse.
+				Edges only form when both the citing and cited paper exist within the
+				collected dataset, meaning the majority of real-world citations between
+				these papers are not captured.
+			</li>
+		</ul>
 
-	<h2>conclusions</h2>
-	<p>words</p>
+		<h2>conclusions</h2>
+		<p>
+			Both networks were similarly sparse (42 vs 50 citations, 51 vs 54 papers).
+			There were no statistically significant differences in density to support
+			or refute the hypothesis.
+		</p>
 
+		<h2>tools</h2>
+		<ul>
+			<li>
+				<a href="https://www.semanticscholar.org/product/api"
+					>Semantic Scholar API</a
+				>
+			</li>
+			<li>
+				<a href="https://networkx.org/">NetworkX</a>
+			</li>
+			<li>
+				<a href="https://github.com/bhargavchippada/forceatlas2">ForceAtlas2</a>
+			</li>
+		</ul>
 
-	<h2>tools</h2>
-	<ul>
-		<li>
-			<a href="https://www.semanticscholar.org/product/api">Semantic Scholar API</a>
-		</li>
-		<li>
-			<a href="https://networkx.org/">NetworkX</a>
-		</li>
-		<li>
-			<a href="https://github.com/David-OConnor/forceatlas2">ForceAtlas2</a>
-		</li>
-	</ul>
+		<h2>references</h2>
+		<p>words</p>
 
-	<h2>references</h2>
-	<p>words</p>
-</body>
+		<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				function initPanzoom(imgId, zoomInId, zoomOutId, resetId) {
+					const elem = document.getElementById(imgId);
+					const panzoom = Panzoom(elem, {
+						maxScale: 10,
+						minScale: 1,
+						contain: "outside",
+					});
+					document
+						.getElementById(zoomInId)
+						.addEventListener("click", panzoom.zoomIn);
+					document
+						.getElementById(zoomOutId)
+						.addEventListener("click", panzoom.zoomOut);
+					document
+						.getElementById(resetId)
+						.addEventListener("click", panzoom.reset);
+				}
 
+				initPanzoom("zoomable-1", "zoom-in-1", "zoom-out-1", "zoom-reset-1");
+				initPanzoom("zoomable-2", "zoom-in-2", "zoom-out-2", "zoom-reset-2");
+			});
+		</script>
+	</body>
 </html>
