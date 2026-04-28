@@ -34,6 +34,15 @@ img {
 	width: 100%;
 	display: block;
 }
+
+.reference {
+	padding-left: 4em;
+	text-indent: -2em;
+	margin-bottom: 0.8em;
+	font-size: 0.95em;
+	line-height: 1.6;
+}
+
 .zoom-controls {
 	display: flex;
 	gap: 0.5rem;
