@@ -35,6 +35,16 @@ img {
 	display: block;
 }
 
+.annotation {
+	font-size: 0.9em;
+	color: #555;
+	margin-top: 0.4em;
+	margin-bottom: 1.2em;
+	padding-left: 4em;
+	line-height: 1.6;
+	font-style: italic;
+}
+
 .reference {
 	padding-left: 4em;
 	text-indent: -2em;
